@@ -1,6 +1,6 @@
 /* This example has a series of fun patterns for use with LED
  * strips set up as a Christmas lighting display.  You can see an
- * earlier version of this code running in this youtube video:
+ * earlier version of this code running in this YouTube video:
  * https://www.youtube.com/watch?v=VZRN0UrQSlc
  *
  * You can optionally connect a switch between pin 3 and ground
@@ -12,8 +12,13 @@
  * ground that displays the next pattern in the series each time
  * it is pushed. */
 
+/* This example is meant for controlling large numbers of LEDs,
+ * so it requires the FastGPIO library.  If you cannot use the
+ * FastGPIO library, you can comment out the two lines below and
+ * the example will still work, but it will be slow. */
 #include <FastGPIO.h>
 #define APA102_USE_FAST_GPIO
+
 #include <APA102.h>
 #include <EEPROM.h>
 
