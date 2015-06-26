@@ -32,52 +32,61 @@ const uint8_t clockPin = 12;
 APA102<dataPin, clockPin> ledStrip;
 
 // Set the number of LEDs to control.
-const uint16_t ledCount = 72;
+const uint16_t ledCount = 60;
 
-// We define "value" in this sketch to be the product of the
+// We define "power" in this sketch to be the product of the
 // 8-bit color channel value and the 5-bit brightness register.
-// The maximum possible value is 255 * 31.
-const uint16_t maxValue = 255 * 31;
+// The maximum possible power is 255 * 31 (7905).
+const uint16_t maxPower = 255 * 31;
 
-// The value we want to show on the first LED is 1, which
+// The power we want to use on the first LED is 1, which
 // corresponds to the dimmest possible white.
-const uint16_t minValue = 1;
+const uint16_t minPower = 1;
 
-// Calculate what the ratio between the values of consecutive
-// LEDs needs to be in order to reach the maxValue on the last
+// Calculate what the ratio between the powers of consecutive
+// LEDs needs to be in order to reach the max power on the last
 // LED of the strip.
-const float multiplier = pow(maxValue / minValue, 1.0 / (ledCount - 1));
+const float multiplier = pow(maxPower / minPower, 1.0 / (ledCount - 1));
 
 void setup()
 {
 }
 
-void sendWhite(uint16_t value)
+// This function sends a white color with the specified power,
+// which should be between 0 and 7905.
+void sendWhite(uint16_t power)
 {
-  uint8_t brightness = 1;
-  while(brightness * 0xFF < value)
+  // Choose the lowest possible 5-bit brightness that will work.
+  uint8_t brightness5Bit = 1;
+  while(brightness5Bit * 255 < power && brightness5Bit < 31)
   {
-    brightness++;
+    brightness5Bit++;
   }
 
-  // Uncomment this line to simulate an LED strip that doesn't
+  // Uncomment this line to simulate an LED strip that does not
   // have the extra 5-bit brightness register.  You will notice
   // that roughly the first third of the LED strip turns off
-  // because the brightness2 equals zero.
+  // because the brightness8Bit equals zero.
   //brightness = 31;
 
-  uint8_t brightness2 = (value + (brightness / 2)) / brightness;
-  ledStrip.sendColor(brightness2, brightness2, brightness2, brightness);
+  // Set brightness8Bit to be power divided by brightness5Bit,
+  // rounded to the nearest whole number.
+  uint8_t brightness8Bit = (power + (brightness5Bit / 2)) / brightness5Bit;
+
+  // Send the white color to the LED strip.  At this point,
+  // brightness8Bit multiplied by brightness5Bit should be
+  // approximately equal to power.
+  ledStrip.sendColor(brightness8Bit, brightness8Bit, brightness8Bit, brightness5Bit);
 }
 
 void loop()
 {
   ledStrip.startFrame();
-  float value = minValue;
+  float power = minPower;
   for(uint16_t i = 0; i < ledCount; i++)
   {
-    sendWhite(value);
-    value = value * multiplier;
+    sendWhite(power);
+    power = power * multiplier;
   }
   ledStrip.endFrame(ledCount);
 }
