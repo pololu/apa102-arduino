@@ -133,6 +133,8 @@ ledStrip.endFrame(ledCount);
 
 The APA102 LEDs do not require any particular timing.  However, each LED will start displaying its new color as soon as the color has been received. The update time is not coordinated with the other LEDs in the strip.  Therefore, depending on your application, it might be important to make this whole sequence be as quick as possible.
 
+For a complete example sketch showing how to use the low-level interface, see the Brightness example included with this library.
+
 ## Chaining LED strips together
 
 No special code is required to control a chain of multiple LED strips that have been connected together using their input and output connectors.  An LED strip with *X* LEDs chained an LED strip with *Y* LEDs and be controlled in exactly the same way as a single LED strip with *X*+*Y* LEDs.
