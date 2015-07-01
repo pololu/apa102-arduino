@@ -91,7 +91,7 @@ namespace Pololu
       /* The data stream seen by the last LED in the chain will be delayed by
        * (count - 1) clock edges, because each LED before it inverts the clock
        * line and delays the data by one clock edge.  Therefore, to make sure
-       * the last LED actaully receives the data we wrote, the number of extra
+       * the last LED actually receives the data we wrote, the number of extra
        * edges we send at the end of the frame must be at least (count - 1).
        *
        * Assuming we only want to send these edges in groups of size K, the

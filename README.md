@@ -1,7 +1,7 @@
 # APA102 library for Arduino
 
 Version: 1.0.0<br/>
-Release date: 2015 Jul 10<br/>
+Release date: 2015 Jul 1<br/>
 [www.pololu.com](https://www.pololu.com/)
 
 ## Summary
@@ -44,7 +44,7 @@ Several example sketches are available that show how to use the library. You can
 
 ## Timing details
 
-The APA102 LEDs have no specific timing requirements.  This library does not explicitly enable or disable any interrupts, and the occurence of interrupts that last less than a few milliseconds does not interfere with this library.
+The APA102 LEDs have no specific timing requirements.  This library does not explicitly enable or disable any interrupts, and the occurrence of interrupts that last less than a few milliseconds does not interfere with this library.
 
 If an interrupt or series of interrupts occur that preempt the APA102 code for more than a few milliseconds as you are writing colors to the LED strip, then you could see visible glitches on the LED strip.  One reason for this is that an APA102 LED will start displaying its new color as soon as the color has been received.  The update time is not coordinated with the other LEDs in the strip.  Also, each APA102 turns off after receiving the second-to-last bit of its new color.
 
@@ -60,7 +60,7 @@ To support faster update rates, this library has an option that makes it use the
 #include <APA102.h>
 ~~~~
 
-With FastGPIO, it takes about 1.43 millseconds to update 60 LEDs on an ATmega32U4-based board running at 16 MHz; the update is faster by a factor of 26.
+With FastGPIO, it takes about 1.43 milliseconds to update 60 LEDs on an ATmega32U4-based board running at 16 MHz; the update is faster by a factor of 26.
 
 ## Creating an APA102 object
 
@@ -147,4 +147,4 @@ If you want to conserve I/O pins, we recommend wiring the clock inputs of all th
 
 ## Version History
 
-* 1.0.0 (2015 Jul 10): Original release.
+* 1.0.0 (2015 Jul 1): Original release.
