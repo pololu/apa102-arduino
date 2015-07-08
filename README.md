@@ -1,7 +1,7 @@
 # APA102 library for Arduino
 
 Version: 1.0.0<br/>
-Release date: 2015 Jul 1<br/>
+Release date: 2015 Jul 7<br/>
 [www.pololu.com](https://www.pololu.com/)
 
 ## Summary
@@ -147,4 +147,4 @@ If you want to conserve I/O pins, we recommend wiring the clock inputs of all th
 
 ## Version History
 
-* 1.0.0 (2015 Jul 1): Original release.
+* 1.0.0 (2015 Jul 7): Original release.
