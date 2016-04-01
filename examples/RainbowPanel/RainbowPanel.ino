@@ -79,6 +79,9 @@ void loop()
   {
     for (uint8_t y = 0; y < ledPanelHeight; y++)
     {
+      // The x * 20 and y * 10 terms determine the general
+      // direction and width of the rainbow, and the x * y term
+      // makes it curve a bit.
       uint8_t p = time - x * 20 - y * 10 - x * y;
       color_at(x, y) = hsvToRgb((uint32_t)p * 359 / 256, 255, 255);
     }
