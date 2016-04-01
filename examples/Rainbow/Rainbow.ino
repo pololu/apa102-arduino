@@ -31,10 +31,10 @@ void setup()
 {
 }
 
-// Converts a color from HSV to RGB.
-// h is hue, as a number between 0 and 360.
-// s is the saturation, as a number between 0 and 255.
-// v is the value, as a number between 0 and 255.
+/* Converts a color from HSV to RGB.
+ * h is hue, as a number between 0 and 360.
+ * s is the saturation, as a number between 0 and 255.
+ * v is the value, as a number between 0 and 255. */
 rgb_color hsvToRgb(uint16_t h, uint8_t s, uint8_t v)
 {
     uint8_t f = (h % 60) * 255 / 60;
@@ -59,8 +59,8 @@ void loop()
 
   for(uint16_t i = 0; i < ledCount; i++)
   {
-    byte x = time - i * 8;
-    colors[i] = hsvToRgb((uint32_t)x * 359 / 256, 255, 255);
+    uint8_t p = time - i * 8;
+    colors[i] = hsvToRgb((uint32_t)p * 359 / 256, 255, 255);
   }
 
   ledStrip.write(colors, ledCount, brightness);
