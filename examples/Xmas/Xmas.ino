@@ -36,6 +36,9 @@ APA102<dataPin, clockPin> ledStrip;
 #define LED_COUNT 509
 rgb_color colors[LED_COUNT];
 
+// Set the brightness to use (the maximum is 31).
+const uint8_t globalBrightness = 1;
+
 #define NUM_STATES  7  // number of patterns to cycle through
 
 // system timer, incremented by one every time through the main loop
@@ -194,7 +197,7 @@ void loop()
   }
 
   // update the LED strips with the colors in the colors array
-  ledStrip.write(colors, LED_COUNT);
+  ledStrip.write(colors, LED_COUNT, globalBrightness);
 
   // Make sure that loops are not too fast there are a small number
   // of LEDs and the colors are calculated quickly.
