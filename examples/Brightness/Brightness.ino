@@ -14,11 +14,11 @@
  * brightness register to 31.
  */
 
-/* By default, the APA102 uses pinMode and digitalWrite to write
- * to the LEDs, which works on all Arduino-compatible boards but
- * might be slow.  If you have a board supported by the FastGPIO
- * library and want faster LED updates, then install the
- * FastGPIO library and uncomment the next two lines: */
+/* By default, the APA102 library uses pinMode and digitalWrite
+ * to write to the LEDs, which works on all Arduino-compatible
+ * boards but might be slow.  If you have a board supported by
+ * the FastGPIO library and want faster LED updates, then install
+ * the FastGPIO library and uncomment the next two lines: */
 // #include <FastGPIO.h>
 // #define APA102_USE_FAST_GPIO
 
