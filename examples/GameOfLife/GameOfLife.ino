@@ -5,9 +5,9 @@
  *
  *     https://en.wikipedia.org/wiki/Game_of_Life
  *
- * Be sure to edit the width and height variables
- * below to match your LED panel.  For the 8x32 panel from Pololu,
- * ledPanelWidth should be 8 and ledPanelHeight should be 32. */
+ * Be sure to edit the width and height variables below to match
+ * your LED panel.  For the 8x32 panel from Pololu, ledPanelWidth
+ * should be 8 and ledPanelHeight should be 32. */
 
 /* This example is meant for controlling large numbers of LEDs,
  * so it requires the FastGPIO library.  If you cannot use the
@@ -37,7 +37,8 @@ const bool wraparoundX = true;
 const bool wraparoundY = true;
 
 // Determines whether we display the age of the live cells using
-// different colors.  If false, all live cells are the same color.
+// different colors.  If false, all live cells are the same
+// color.
 const bool showAge = true;
 
 // Set the brightness to use (the maximum is 31).
@@ -51,9 +52,10 @@ APA102<dataPin, clockPin> ledStrip;
 
 // Make a buffer for the game state.  Each cell gets one byte.
 // Bit 7: 1 if the cell is alive currently.
-// Bit 6: Temporarily 1 if the cell will be alive in the next frame.
-// Bits 0-5: the age of the cell, if alive currently, capped at 64.
-//    Otherwise, these will be 0.
+// Bit 6: Temporarily 1 if the cell will be alive
+//        in the next frame.
+// Bits 0-5: the age of the cell, if alive currently,
+//    capped at 64.  Otherwise, these will be 0.
 uint8_t gameState[cellCount] = {0};
 
 #define STATE_ALIVE       0x80
@@ -91,14 +93,15 @@ uint8_t & cellState(uint8_t x, uint8_t y)
 void setupRandom()
 {
   randomSeed(analogRead(analogRandomSeedPin));
+  //randomSeed(2);
   for (uint16_t i = 0; i < cellCount; i++)
   {
     gameState[i] = random(2) ? STATE_ALIVE : STATE_DEAD;
   }
 }
 
-// Sets up a glider that will travel in the positive x, positive y
-// direction, with its nose starting at the specified
+// Sets up a glider that will travel in the positive x, positive
+// y direction, with its nose starting at the specified
 // coordinates.
 void setupGlider(uint8_t x, uint8_t y)
 {
