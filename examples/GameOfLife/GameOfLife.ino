@@ -93,7 +93,6 @@ uint8_t & cellState(uint8_t x, uint8_t y)
 void setupRandom()
 {
   randomSeed(analogRead(analogRandomSeedPin));
-  //randomSeed(2);
   for (uint16_t i = 0; i < cellCount; i++)
   {
     gameState[i] = random(2) ? STATE_ALIVE : STATE_DEAD;
