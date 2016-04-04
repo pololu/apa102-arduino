@@ -1,12 +1,12 @@
 # APA102 library for Arduino
 
-Version: 1.0.0<br/>
-Release date: 2015 Jul 7<br/>
+Version: 1.1.0<br/>
+Release date: 2016 Apr 4<br/>
 [www.pololu.com](https://www.pololu.com/)
 
 ## Summary
 
-This is a C++ library for the Arduino IDE that helps control addressable RGB LED strips based on the APA102/APA102C RGB LED controller IC.  This library provides full access to the 24-bit color register and 5-bit brightness register of each APA102 LED.
+This is a C++ library for the Arduino IDE that helps control addressable [RGB LED strips and panels based on the APA102/APA102C RGB LED controller IC](https://www.pololu.com/category/178/apa102-based-addressable-rgb-leds).  This library provides full access to the 24-bit color register and 5-bit brightness register of each APA102 LED.
 
 The library provides a high-level interface where you store all the LED strip colors in an array and then write them to the LED strip.  It also has a lower-level interface that allows you to send colors to the strip as you are computing them, which reduces RAM usage.
 
@@ -147,4 +147,7 @@ If you want to conserve I/O pins, we recommend wiring the clock inputs of all th
 
 ## Version History
 
+* 1.1.0 (2016 Apr 4):
+** Added two examples for two-dimensional LED panels: RainbowPanel and GameOfLife.
+** Changed the Xmas example to use a brightness of 1 by default, like the other examples.
 * 1.0.0 (2015 Jul 7): Original release.
