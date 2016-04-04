@@ -5,9 +5,15 @@
  *
  *     https://en.wikipedia.org/wiki/Game_of_Life
  *
- * Be sure to edit the width and height variables below to match
- * your LED panel.  For the 8x32 panel from Pololu, ledPanelWidth
- * should be 8 and ledPanelHeight should be 32. */
+ * The top of this file defines several settings which you can
+ * edit.  Be sure to edit the width and height variables below to
+ * match your LED panel.  For the 8x32 panel from Pololu,
+ * ledPanelWidth should be 8 and ledPanelHeight should be 32.
+ *
+ * By default, this example initializes each cell in the game to
+ * a random state.  There are some other options for the initial
+ * state of the game that you can use by editing the setup()
+ * function. */
 
 /* This example is meant for controlling large numbers of LEDs,
  * so it requires the FastGPIO library.  If you cannot use the
@@ -26,7 +32,6 @@ const uint8_t analogRandomSeedPin = A0;
 // Set the size of the LED panel (and the game).
 const uint8_t width = 16;
 const uint8_t height = 16;
-const uint16_t cellCount = width * height;
 
 // Set whether the left and right edges are considered to
 // border eachother.
@@ -49,6 +54,8 @@ const uint16_t frameTime = 100;
 
 // Create an object for writing to the LED strip.
 APA102<dataPin, clockPin> ledStrip;
+
+const uint16_t cellCount = width * height;
 
 // Make a buffer for the game state.  Each cell gets one byte.
 // Bit 7: 1 if the cell is alive currently.
