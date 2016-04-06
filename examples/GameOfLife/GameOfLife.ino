@@ -1,4 +1,4 @@
-/* This example implement's Conway's Game of Life on an
+/* This example implements Conway's Game of Life on an
  * APA102-based LED panel.
  *
  * For more information about the Game of Life, see:
@@ -6,7 +6,7 @@
  *     https://en.wikipedia.org/wiki/Game_of_Life
  *
  * The top of this file defines several settings which you can
- * edit.  Be sure to edit the width and height variables below to
+ * edit.  Be sure to edit the width and height variables to
  * match your LED panel.  For the 8x32 panel from Pololu,
  * ledPanelWidth should be 8 and ledPanelHeight should be 32.
  *
