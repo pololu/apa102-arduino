@@ -148,6 +148,6 @@ If you want to conserve I/O pins, we recommend wiring the clock inputs of all th
 ## Version History
 
 * 1.1.0 (2016 Apr 06):
-** Added two examples for two-dimensional LED panels: RainbowPanel and GameOfLife.
-** Changed the Xmas example to use a brightness of 1 by default, like the other examples.
+    * Added two examples for two-dimensional LED panels: RainbowPanel and GameOfLife.
+    * Changed the Xmas example to use a brightness of 1 by default, like the other examples.
 * 1.0.0 (2015 Jul 7): Original release.
