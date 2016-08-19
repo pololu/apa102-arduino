@@ -6,9 +6,7 @@ cache:
 
 install:
 - pip install -U platformio
-- pushd /tmp
-- curl -L https://github.com/pololu/fastgpio-arduino/archive/master.tar.gz | tar xz
-- popd
+- curl -L https://github.com/pololu/fastgpio-arduino/archive/master.tar.gz | tar xz -C /tmp
 
 env:
 - BOARD=uno
