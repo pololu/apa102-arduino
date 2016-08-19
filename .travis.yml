@@ -6,8 +6,8 @@ cache:
 
 install:
 - pip install -U platformio
-- wget https://github.com/pololu/fastgpio-arduino/archive/1.0.2.zip -O /tmp/fastgpio.zip
-- unzip /tmp/fastgpio.zip -d /tmp/
+- cd /tmp
+- curl -L https://github.com/pololu/fastgpio-arduino/archive/master.tar.gz | tar xz
 
 env:
 - BOARD=uno
@@ -17,5 +17,5 @@ env:
 
 script:
 - for e in examples/*; do
-    platformio ci --board=$BOARD --lib="." --lib="/tmp/fastgpio-arduino-1.0.2/FastGPIO/" $e/*;
+    platformio ci --board=$BOARD --lib="." --lib="/tmp/fastgpio-arduino-master/" $e/*;
   done
