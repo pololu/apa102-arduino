@@ -107,7 +107,7 @@ namespace Pololu
       // a rising edge, we need to send at least 65 + (count - 1) edges.  It is
       // sufficent and simpler to just send (5 + count/16) bytes of zeros.
       //
-      // We are ignoring the specification for the end frame in the APA102/SK988
+      // We are ignoring the specification for the end frame in the APA102/SK9822
       // datasheets because it does not actually ensure that all the LEDs will
       // start displaying their new colors right away.
 
