@@ -1,12 +1,12 @@
 # APA102 library for Arduino
 
-Version: 1.1.0<br/>
-Release date: 2016 Apr 06<br/>
+Version: 2.0.0<br/>
+Release date: 2016<br/>
 [www.pololu.com](https://www.pololu.com/)
 
 ## Summary
 
-This is a C++ library for the Arduino IDE that helps control addressable [RGB LED strips and panels based on the APA102/APA102C RGB LED controller IC](https://www.pololu.com/category/178/apa102-based-addressable-rgb-leds).  This library provides full access to the 24-bit color register and 5-bit brightness register of each APA102 LED.
+This is a C++ library for the Arduino IDE that helps control addressable [RGB LED strips and panels based on the SK9822/APA102/APA102C RGB LED controller IC](https://www.pololu.com/category/178/apa102-based-addressable-rgb-leds).  This library provides full access to the 24-bit color register and 5-bit brightness register of each LED.
 
 The library provides a high-level interface where you store all the LED strip colors in an array and then write them to the LED strip.  It also has a lower-level interface that allows you to send colors to the strip as you are computing them, which reduces RAM usage.
 
@@ -18,7 +18,7 @@ This library is designed to work with the Arduino IDE versions 1.6.x or later an
 
 ### Hardware
 
-An APA102-based LED strip can be purchased from Pololu's website.  The LED strip's input connector has three pins that should be connected to the Arduino.  The LED strip's ground will need to be connected to one of the Arduino's GND pins.  The LED strip's data input line (DI) will need to be connected to one of the Arduino's I/O lines.  The LED strip's clock input line (CI) will also need to be connected to one of the Arduino's I/O lines.  Our examples use pin 11 as the data pin and pin 12 as the clock pin.  These connections can be made using three [Male-Female Premium Jumper Wires](http://www.pololu.com/catalog/category/67) with the female ends plugging into the LED strip.
+An LED strip based on the SK98222 or APA102C can be purchased from Pololu's website.  The LED strip's input connector has three pins that should be connected to the Arduino.  The LED strip's ground will need to be connected to one of the Arduino's GND pins.  The LED strip's data input line (DI) will need to be connected to one of the Arduino's I/O lines.  The LED strip's clock input line (CI) will also need to be connected to one of the Arduino's I/O lines.  Our examples use pin 11 as the data pin and pin 12 as the clock pin.  These connections can be made using three [Male-Female Premium Jumper Wires](http://www.pololu.com/catalog/category/67) with the female ends plugging into the LED strip.
 
 You will also need to connect a suitable power supply to the LED strip using the power wires.  The power supply must be at the right voltage and provide enough current to meet the LED strip's requirements.
 
@@ -46,11 +46,16 @@ Several example sketches are available that show how to use the library. You can
 
 The APA102 LEDs have no specific timing requirements.  This library does not explicitly enable or disable any interrupts, and the occurrence of interrupts that last less than a few milliseconds does not interfere with this library.
 
-If an interrupt or series of interrupts occur that preempt the APA102 code for more than a few milliseconds as you are writing colors to the LED strip, then you could see visible glitches on the LED strip.  One reason for this is that an APA102 LED will start displaying its new color as soon as the color has been received.  The update time is not coordinated with the other LEDs in the strip.  Also, each APA102 turns off after receiving the second-to-last bit of its new color.
+If an interrupt or series of interrupts occur that preempt the library code for more than a few milliseconds as you are writing colors to the LED strip, then you could see visible glitches on the LED strip, especially if you are using the APA102C.
+
+An APA102C LED will start displaying its new color as soon as the color has been received.  The update time is not coordinated with the other LEDs in the strip.  If a long interrupt happens while the color data is being sent, you might notice that the beginning of the strip got updated before the end of the strip.  Also, each APA102 turns off after receiving the second-to-last bit of its new color.
+
+An SK9822 LED will only start displaying a new color once it receives the frame-ending signal sent by this library, which takes much less time than sending the color data.  If an interrupt happens during that frame-ending signal, you might notice that the beginning of the strip got updated before the end of the strip.
+
 
 ## Speed
 
-By default, this library uses the `pinMode` and `digitalWrite` functions provided by the Arduino environment to control the LED strip.  On an ATmega32U4-based board running at 16 MHz, using Arduino 1.6.5, we found that it takes this library 37.5 milliseconds to update 60 LEDs.  That means the maximum update rate for that number of LEDs is only 26 Hz, which might look bad.
+By default, this library uses the `pinMode` and `digitalWrite` functions provided by the Arduino environment to control the LED strip.  On an ATmega32U4-based board running at 16 MHz, using Arduino 1.6.12, we found that it takes this library 28.9 milliseconds to update 60 LEDs.  That means the maximum update rate for that number of LEDs is only 35 Hz, which might look bad.
 
 To support faster update rates, this library has an option that makes it use the [FastGPIO library](https://github.com/pololu/fastgpio-arduino).  If the FastGPIO library supports your board, then we recommend installing FastGPIO and adding these lines to the top of your sketch to make APA102 use it:
 
@@ -60,11 +65,11 @@ To support faster update rates, this library has an option that makes it use the
 #include <APA102.h>
 ~~~~
 
-With FastGPIO, it takes about 1.43 milliseconds to update 60 LEDs on an ATmega32U4-based board running at 16 MHz; the update is faster by a factor of 26.
+With FastGPIO, it takes about 1.45 milliseconds to update 60 LEDs on an ATmega32U4-based board running at 16 MHz; the update is faster by a factor of 20.
 
 ## Creating an APA102 object
 
-To create an APA102 object that represents an LED strip, add code like this near the top of your sketch:
+To create an APA102 object that represents an SK9822/APA102 LED strip, add code like this near the top of your sketch:
 
 ~~~~{.cpp}
 const uint8_t dataPin = 11;
@@ -72,9 +77,11 @@ const uint8_t clockPin = 12;
 APA102<dataPin, clockPin> ledStrip;
 ~~~~
 
+The APA102 object works with both SK9822 LED strips and APA102 LED strips.
+
 ## High-level interface
 
-The APA102 class provides a high-level that allows you to pass in an array of colors.  This interface is similar to the interface provided by other LED strips libraries like [PololuLedStrip](https://github.com/pololu/pololu-led-strip-arduino).
+The APA102 class provides a high-level interface that allows you to pass in an array of colors.  This interface is similar to the interface provided by other LED strips libraries like [PololuLedStrip](https://github.com/pololu/pololu-led-strip-arduino).
 
 First, you need to define an array to hold your LED colors.  This array will take 3 bytes of RAM per LED.  The first entry in the array corresponds to the LED closest to the input connector.  You can put this code near the top of your sketch to define the array:
 
@@ -131,8 +138,6 @@ After you are done sending colors, call `endFrame` with the number of LEDs that 
 ledStrip.endFrame(ledCount);
 ~~~~
 
-The APA102 LEDs do not require any particular timing.  However, each LED will start displaying its new color as soon as the color has been received. The update time is not coordinated with the other LEDs in the strip.  Therefore, depending on your application, it might be important to make this whole sequence be as quick as possible.
-
 For a complete example sketch showing how to use the low-level interface, see the Brightness example included with this library.
 
 ## Chaining LED strips together
@@ -141,12 +146,18 @@ No special code is required to control a chain of multiple LED strips that have 
 
 ## Controlling multiple chains of LEDs
 
-Multiple chains of APA102 LEDs can be controlled by creating multiple `APA102` objects with different names, using different pins and different color arrays.
+Multiple chains of SK9822/APA102 LEDs can be controlled by creating multiple `APA102` objects with different names, using different pins and different color arrays.
 
 If you want to conserve I/O pins, we recommend wiring the clock inputs of all the LED chains together and controlling them with a single I/O line, while using separate I/O lines for each data input.  It would also be possible to control all the data lines with a single I/O line and use separate lines for each clock input.  However, we recommend the single clock wiring because it allows the possibility of writing advanced code that efficiently writes to all of the LED chains simultaneously.
 
 ## Version History
 
+* 2.0.0 (2016):
+    * Added support for the SK9822 IC.
+    * To support the SK9822, the `endFrame` function was changed.  As a side
+      effect, if you try to write to a smaller number of LEDs than are on your
+      LED strip, the LED after the last one you update will be set to black.
+      This could be a breaking change for some APA102 users.
 * 1.1.0 (2016 Apr 06):
     * Added two examples for two-dimensional LED panels: RainbowPanel and GameOfLife.
     * Changed the Xmas example to use a brightness of 1 by default, like the other examples.
