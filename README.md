@@ -6,7 +6,7 @@ Release date: 2016<br/>
 
 ## Summary
 
-This is a C++ library for the Arduino IDE that helps control addressable [RGB LED strips and panels based on the SK9822/APA102/APA102C RGB LED controller IC](https://www.pololu.com/category/178/apa102-based-addressable-rgb-leds).  This library provides full access to the 24-bit color register and 5-bit brightness register of each LED.
+This is a C++ library for the Arduino IDE that helps control addressable [RGB LED strips and panels based on the SK9822/APA102/APA102C RGB LED controller ICs](https://www.pololu.com/category/178/apa102-based-addressable-rgb-leds).  This library provides full access to the 24-bit color register and 5-bit brightness register of each LED.
 
 The library provides a high-level interface where you store all the LED strip colors in an array and then write them to the LED strip.  It also has a lower-level interface that allows you to send colors to the strip as you are computing them, which reduces RAM usage.
 
