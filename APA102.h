@@ -103,9 +103,9 @@ namespace Pololu
       // the last LED, we send a dummy 0xFF byte.  (Unfortunately, this means
       // that partial updates of the beginning of an LED strip are not possible;
       // the LED after the last one you are trying to update will be black.)
-      // After that, to ensure that the last LED in chain sees 32 zero bits and
-      // a rising edge, we need to send at least 65 + (count - 1) edges.  It is
-      // sufficent and simpler to just send (5 + count/16) bytes of zeros.
+      // After that, to ensure that the last LED in the chain sees 32 zero bits
+      // and a rising edge, we need to send at least 65 + (count - 1) edges.  It
+      // is sufficent and simpler to just send (5 + count/16) bytes of zeros.
       //
       // We are ignoring the specification for the end frame in the APA102/SK9822
       // datasheets because it does not actually ensure that all the LEDs will
