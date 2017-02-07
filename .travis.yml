@@ -16,5 +16,5 @@ env:
 
 script:
 - for e in examples/*; do
-    platformio ci --board=$BOARD --lib="." --lib="/tmp/fastgpio-arduino-master/FastGPIO" $e/*;
+    platformio ci --board=$BOARD --lib="." --lib="/tmp/fastgpio-arduino-master/" $e/*;
   done

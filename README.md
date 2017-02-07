@@ -1,7 +1,7 @@
 # APA102 library for Arduino
 
-Version: 1.1.1 <br>
-Release date: 2016-08-19 <br>
+Version: 1.1.2 <br>
+Release date: 2017-02-07 <br>
 [![Build Status](https://travis-ci.org/pololu/apa102-arduino.svg?branch=master)](https://travis-ci.org/pololu/apa102-arduino) <br>
 [www.pololu.com](https://www.pololu.com/)
 
@@ -147,6 +147,7 @@ Multiple chains of APA102 LEDs can be controlled by creating multiple `APA102` o
 If you want to conserve I/O pins, we recommend wiring the clock inputs of all the LED chains together and controlling them with a single I/O line, while using separate I/O lines for each data input.  It would also be possible to control all the data lines with a single I/O line and use separate lines for each clock input.  However, we recommend the single clock wiring because it allows the possibility of writing advanced code that efficiently writes to all of the LED chains simultaneously.
 
 ## Version History
+* 1.1.2 (2017-02-07): Update testing for new FastGPIO directory layout
 * 1.1.1 (2016-08-19): Add continuous integration testing
 * 1.1.0 (2016-04-06):
     * Added two examples for two-dimensional LED panels: RainbowPanel and GameOfLife.
