@@ -15,6 +15,7 @@ env:
 - BOARD=yun
 
 script:
-- for e in examples/*; do
-    platformio ci --board=$BOARD --lib="." --lib="/tmp/fastgpio-arduino-master/" $e/*;
+- set -eo pipefail;
+  for e in examples/*; do
+    platformio ci --board=$BOARD --lib=. --lib="/tmp/fastgpio-arduino-master/" $e/*;
   done
