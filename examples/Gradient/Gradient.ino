@@ -37,9 +37,7 @@ void loop()
   for(uint16_t i = 0; i < ledCount; i++)
   {
     uint8_t x = time - i * 8;
-    colors[i].red = x;
-    colors[i].green = 255 - x;
-    colors[i].blue = x;
+    colors[i] = rgb_color(x, 255 - x, x);
   }
 
   ledStrip.write(colors, ledCount, brightness);
