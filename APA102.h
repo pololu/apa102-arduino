@@ -17,7 +17,10 @@ namespace Pololu
   typedef struct rgb_color
   {
     uint8_t red, green, blue;
+    rgb_color() {};
+    rgb_color(uint8_t r, uint8_t g, uint8_t b) : red(r), green(g), blue(b) {};
   } rgb_color;
+  
   #endif
 
   /*! An abstract base class for APA102.  This class is useful if you want
