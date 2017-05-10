@@ -1,8 +1,8 @@
 # APA102 library for Arduino
 
 Version: 2.0.0<br/>
-Release date: 2016<br/>
-[www.pololu.com](https://www.pololu.com/)
+Release date: 2017-05-11<br/>
+[![Build Status](https://travis-ci.org/pololu/apa102-arduino.svg?branch=master)](https://travis-ci.org/pololu/apa102-arduino) <br>
 
 ## Summary
 
@@ -18,13 +18,13 @@ This library is designed to work with the Arduino IDE versions 1.6.x or later an
 
 ### Hardware
 
-An LED strip based on the SK98222 or APA102C can be purchased from Pololu's website.  The LED strip's input connector has three pins that should be connected to the Arduino.  The LED strip's ground will need to be connected to one of the Arduino's GND pins.  The LED strip's data input line (DI) will need to be connected to one of the Arduino's I/O lines.  The LED strip's clock input line (CI) will also need to be connected to one of the Arduino's I/O lines.  Our examples use pin 11 as the data pin and pin 12 as the clock pin.  These connections can be made using three [Male-Female Premium Jumper Wires](http://www.pololu.com/catalog/category/67) with the female ends plugging into the LED strip.
+An LED strip based on the SK98222 or APA102C can be purchased from Pololu's website.  The LED strip's input connector has three pins that should be connected to the Arduino.  The LED strip's ground will need to be connected to one of the Arduino's GND pins.  The LED strip's data input line (DI or DIN) will need to be connected to one of the Arduino's I/O lines.  The LED strip's clock input line (CI or CIN) will also need to be connected to one of the Arduino's I/O lines.  Our examples use pin 11 as the data pin and pin 12 as the clock pin.  These connections can be made using three [Male-Female Premium Jumper Wires](http://www.pololu.com/catalog/category/67) with the female ends plugging into the LED strip.
 
 You will also need to connect a suitable power supply to the LED strip using the power wires.  The power supply must be at the right voltage and provide enough current to meet the LED strip's requirements.
 
 ### Software
 
-If you are using version 1.6.2 or later of the [Arduino software (IDE)](http://www.arduino.cc/en/Main/Software), you can use the Library Manager to install this library:
+If you are using version 1.6.2 or later of the [Arduino software (IDE)](https://www.arduino.cc/en/Main/Software), you can use the Library Manager to install this library:
 
 1. In the Arduino IDE, open the "Sketch" menu, select "Include Library", then "Manage Libraries...".
 2. Search for "APA102".
@@ -157,8 +157,10 @@ If you want to conserve I/O pins, we recommend wiring the clock inputs of all th
     * To support the SK9822, the `endFrame` function was changed.  As a side
       effect, if you try to write to a smaller number of LEDs than are on your
       LED strip, the LED after the last one you update will be set to black.
-      This could be a breaking change for some APA102 users.
-* 1.1.0 (2016 Apr 06):
+* 1.2.0 (2017-03-20): Added a constructor for rgb_color that takes the three color values and changed the examples to use it.
+* 1.1.2 (2017-02-07): Update testing for new FastGPIO directory layout
+* 1.1.1 (2016-08-19): Add continuous integration testing
+* 1.1.0 (2016-04-06):
     * Added two examples for two-dimensional LED panels: RainbowPanel and GameOfLife.
     * Changed the Xmas example to use a brightness of 1 by default, like the other examples.
-* 1.0.0 (2015 Jul 7): Original release.
+* 1.0.0 (2015-07-07): Original release.
