@@ -1,4 +1,4 @@
-# APA102 library for Arduino
+# APA102/SK9822 library for Arduino
 
 Version: 2.0.0<br/>
 Release date: 2017-05-15<br/>
