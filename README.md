@@ -1,7 +1,7 @@
 # APA102 library for Arduino
 
 Version: 2.0.0<br/>
-Release date: 2017-05-11<br/>
+Release date: 2017-05-15<br/>
 [![Build Status](https://travis-ci.org/pololu/apa102-arduino.svg?branch=master)](https://travis-ci.org/pololu/apa102-arduino) <br>
 
 ## Summary
@@ -152,7 +152,7 @@ If you want to conserve I/O pins, we recommend wiring the clock inputs of all th
 
 ## Version History
 
-* 2.0.0 (2016):
+* 2.0.0 (2017-05-15):
     * Added support for the SK9822 IC.
     * To support the SK9822, the `endFrame` function was changed.  As a side
       effect, if you try to write to a smaller number of LEDs than are on your
