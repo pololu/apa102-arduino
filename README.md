@@ -1,7 +1,7 @@
 # APA102/SK9822 library for Arduino
 
-Version: 2.0.0<br/>
-Release date: 2017-05-15<br/>
+Version: 3.0.0<br/>
+Release date: 2018-11-14<br/>
 [![Build Status](https://travis-ci.org/pololu/apa102-arduino.svg?branch=master)](https://travis-ci.org/pololu/apa102-arduino) <br>
 
 ## Summary
@@ -46,16 +46,14 @@ Several example sketches are available that show how to use the library. You can
 
 The APA102 LEDs have no specific timing requirements.  This library does not explicitly enable or disable any interrupts, and the occurrence of interrupts that last less than a few milliseconds does not interfere with this library.
 
-If an interrupt or series of interrupts occur that preempt the library code for more than a few milliseconds as you are writing colors to the LED strip, then you could see visible glitches on the LED strip, especially if you are using the APA102C.
+If an interrupt or series of interrupts occurs that preempts the library code for more than a few milliseconds as you are writing colors to the LED strip, then you could see visible glitches on the LED strip.
 
-An APA102C LED will start displaying its new color as soon as the color has been received.  The update time is not coordinated with the other LEDs in the strip.  If a long interrupt happens while the color data is being sent, you might notice that the beginning of the strip got updated before the end of the strip.  Also, each APA102 turns off after receiving the second-to-last bit of its new color.
-
-An SK9822 LED will only start displaying a new color once it receives the frame-ending signal sent by this library, which takes much less time than sending the color data.  If an interrupt happens during that frame-ending signal, you might notice that the beginning of the strip got updated before the end of the strip.
+An SK9822 or APA102C LED will start displaying its new color as soon as it receives the color.  The update time is not coordinated with the other LEDs in the strip.  If a long interrupt happens while the color data is being sent, you might notice that the beginning of the strip got updated before the end of the strip.  Also, the APA102C turns off after receiving the second-to-last bit of its new color.
 
 
 ## Speed
 
-By default, this library uses the `pinMode` and `digitalWrite` functions provided by the Arduino environment to control the LED strip.  On an ATmega32U4-based board running at 16 MHz, using Arduino 1.6.12, we found that it takes this library 28.9 milliseconds to update 60 LEDs.  That means the maximum update rate for that number of LEDs is only 35 Hz, which might look bad.
+By default, this library uses the `pinMode` and `digitalWrite` functions provided by the Arduino environment to control the LED strip.  On an ATmega32U4-based board running at 16 MHz, using Arduino 1.8.7, we found that it takes this library 28.2 milliseconds to update 60 LEDs.  That means the maximum update rate for that number of LEDs is only 35 Hz.
 
 To support faster update rates, this library has an option that makes it use the [FastGPIO library](https://github.com/pololu/fastgpio-arduino).  If the FastGPIO library supports your board, then we recommend installing FastGPIO and adding these lines to the top of your sketch to make APA102 use it:
 
@@ -65,7 +63,7 @@ To support faster update rates, this library has an option that makes it use the
 #include <APA102.h>
 ~~~~
 
-With FastGPIO, it takes about 1.45 milliseconds to update 60 LEDs on an ATmega32U4-based board running at 16 MHz; the update is faster by a factor of 20.
+With FastGPIO, it takes about 1.40 milliseconds to update 60 LEDs on an ATmega32U4-based board running at 16 MHz; the update is faster by a factor of 20.
 
 ## Creating an APA102 object
 
@@ -81,7 +79,7 @@ The APA102 object works with both SK9822 LED strips and APA102 LED strips.
 
 ## High-level interface
 
-The APA102 class provides a high-level interface that allows you to pass in an array of colors.  This interface is similar to the interface provided by other LED strips libraries like [PololuLedStrip](https://github.com/pololu/pololu-led-strip-arduino).
+The APA102 class provides a high-level interface that allows you to pass in an array of colors.  This interface is similar to the interface provided by other LED strip libraries like [PololuLedStrip](https://github.com/pololu/pololu-led-strip-arduino).
 
 First, you need to define an array to hold your LED colors.  This array will take 3 bytes of RAM per LED.  The first entry in the array corresponds to the LED closest to the input connector.  You can put this code near the top of your sketch to define the array:
 
@@ -150,13 +148,16 @@ Multiple chains of SK9822/APA102 LEDs can be controlled by creating multiple `AP
 
 If you want to conserve I/O pins, we recommend wiring the clock inputs of all the LED chains together and controlling them with a single I/O line, while using separate I/O lines for each data input.  It would also be possible to control all the data lines with a single I/O line and use separate lines for each clock input.  However, we recommend the single clock wiring because it allows the possibility of writing advanced code that efficiently writes to all of the LED chains simultaneously.
 
-## Version History
+## Version history
 
+* 3.0.0 (2018-11-14):
+  * Change the code back to the way it was in version 1.2.0.  The SK9822 protocol is actually compatible with the APA102C protocol, so no changes were needed to support it.
 * 2.0.0 (2017-05-15):
-    * Added support for the SK9822 IC.
-    * To support the SK9822, the `endFrame` function was changed.  As a side
-      effect, if you try to write to a smaller number of LEDs than are on your
-      LED strip, the LED after the last one you update will be set to black.
+  * Added support for the SK9822 IC.
+  * To support the SK9822, the `endFrame` function was changed.  As a side
+    effect, if you try to write to a smaller number of LEDs than are on your
+    LED strip, the LED after the last one you update will be set to black.
+  * These changes were actually unnecessary.
 * 1.2.0 (2017-03-20): Added a constructor for rgb_color that takes the three color values and changed the examples to use it.
 * 1.1.2 (2017-02-07): Update testing for new FastGPIO directory layout
 * 1.1.1 (2016-08-19): Add continuous integration testing
