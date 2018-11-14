@@ -45,10 +45,10 @@ namespace Pololu
    * by a particular clock and data pin.
    *
    * @param dataPin The Arduino pin number or name for the pin that will be
-   *   used to control the APA102 data input.
+   *   used to control the data input.
    *
    * @param clockPin The Arduino pin number or name for the pin that will be
-   *   used to control the APA102 clock input.
+   *   used to control the clock input.
    */
   template<uint8_t dataPin, uint8_t clockPin> class APA102 : public APA102Base
   {
@@ -90,34 +90,36 @@ namespace Pololu
      * to control multiple LED strips. */
     void endFrame(uint16_t count)
     {
-      // We need to send some more bytes to ensure that all the LEDs in the
-      // chain see their new color and start displaying it.
-      //
-      // The data stream seen by the last LED in the chain will be delayed by
-      // (count - 1) clock edges, because each LED before it inverts the clock
-      // line and delays the data by one clock edge.  Therefore, to make sure
-      // the last LED actually receives the data we wrote, the number of extra
-      // edges we send at the end of the frame must be at least (count - 1).
-      // For the APA102C, that is sufficient.
-      //
-      // The SK9822 only updates after it sees 32 zero bits followed by one more
-      // rising edge.  To avoid having the update time depend on the color of
-      // the last LED, we send a dummy 0xFF byte.  (Unfortunately, this means
-      // that partial updates of the beginning of an LED strip are not possible;
-      // the LED after the last one you are trying to update will be black.)
-      // After that, to ensure that the last LED in the chain sees 32 zero bits
-      // and a rising edge, we need to send at least 65 + (count - 1) edges.  It
-      // is sufficent and simpler to just send (5 + count/16) bytes of zeros.
-      //
-      // We are ignoring the specification for the end frame in the APA102/SK9822
-      // datasheets because it does not actually ensure that all the LEDs will
-      // start displaying their new colors right away.
+      /* The data stream seen by the last LED in the chain will be delayed by
+       * (count - 1) clock edges, because each LED before it inverts the clock
+       * line and delays the data by one clock edge.  Therefore, to make sure
+       * the last LED actually receives the data we wrote, the number of extra
+       * edges we send at the end of the frame must be at least (count - 1).
+       *
+       * Assuming we only want to send these edges in groups of size K, the
+       * C/C++ expression for the minimum number of groups to send is:
+       *
+       *   ((count - 1) + (K - 1)) / K
+       *
+       * The C/C++ expression above is just (count - 1) divided by K,
+       * rounded up to the nearest whole number if there is a remainder.
+       *
+       * We set K to 16 and use the formula above as the number of frame-end
+       * bytes to transfer.  Each byte has 16 clock edges.
+       *
+       * We are ignoring the specification for the end frame in the APA102
+       * datasheet, which says to send 0xFF four times, because it does not work
+       * when you have 66 LEDs or more, and also it results in unwanted white
+       * pixels if you try to update fewer LEDs than are on your LED strip. */
 
-      transfer(0xFF);
-      for (uint16_t i = 0; i < 5 + count / 16; i++)
+      for (uint16_t i = 0; i < (count + 14)/16; i++)
       {
         transfer(0);
       }
+
+      /* We call init() here to make sure we leave the data line driving low
+       * even if count is 0 or 1. */
+      init();
     }
 
     /*! Sends a single 24-bit color and an optional 5-bit brightness value.
