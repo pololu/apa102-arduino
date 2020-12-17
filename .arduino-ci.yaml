@@ -1,0 +1,8 @@
+skip_boards:
+  - arduino:avr:mega
+  - arduino:sam:arduino_due_x
+  - arduino:samd:arduino_zero_native
+  - esp8266:esp8266:huzzah
+  - Intel:arc32:arduino_101
+library_archives:
+  - FastGPIO=https://github.com/pololu/fastgpio-arduino/archive/2.1.0.tar.gz=0lllzkg7qb9phr4a8vnmg2g1sb4kjrh28wcsgiim1nk9vb0hgblp

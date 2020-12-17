@@ -2,7 +2,6 @@
 
 Version: 3.0.0<br/>
 Release date: 2018-11-14<br/>
-[![Build Status](https://travis-ci.org/pololu/apa102-arduino.svg?branch=master)](https://travis-ci.org/pololu/apa102-arduino) <br>
 
 ## Summary
 
